@@ -1,0 +1,13 @@
+name: PvPBot
+main: dev.pvpbot.PvPBotPlugin
+version: 1.0.0
+api-version: '1.21'
+description: Fight a tiered (LT5-HT1) crystal / mace PvP bot
+commands:
+  bot:
+    description: Fight a PvP bot
+    usage: /bot <tier> <cpvp|mace> | /bot stop | /bot reload
+    aliases: [pvpbot]
+permissions:
+  pvpbot.use: {default: true}
+  pvpbot.admin: {default: op}
