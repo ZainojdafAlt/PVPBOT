@@ -1,2 +1,0 @@
-# PVPBOT
-Claude AI PVP PLUGIN
