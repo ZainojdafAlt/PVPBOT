@@ -566,7 +566,7 @@ public final class BotCombat {
             boolean bl5 = bl4 = !botSettings.isFriendlyFire() && PvpBotPlugin.get().factions().areAllies(player.getName(), livingEntity.getName());
             if (bl4) {
                 state.lastAttacker = null;
-            } else if (livingEntity.isValid() && !livingEntity.isDead() && !bl && BotCombat.isValidTarget(player, livingEntity, botSettings) && BotCombat.chaseAcrossWorlds(player, (Entity)livingEntity, botSettings)) {
+            } else if (livingEntity.isValid() && !livingEntity.isDead() && !bl && BotCombat.isValidTarget(player, (LivingEntity)livingEntity, botSettings) && BotCombat.chaseAcrossWorlds(player, (Entity)livingEntity, botSettings)) {
                 BotAwareness.reveal(player.getName(), (Entity)livingEntity, botSettings);
                 return livingEntity;
             }
