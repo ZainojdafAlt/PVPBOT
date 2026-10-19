@@ -550,7 +550,7 @@ public final class BotCombat {
 
     private static Entity findTarget(Player player, State state, BotSettings botSettings) {
         boolean bl;
-        LivingEntity livingEntity;
+        Entity livingEntity;
         boolean bl2;
         Player player2;
         state.autoPicked = false;

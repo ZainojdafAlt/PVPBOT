@@ -10,7 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EndCrystal;
+import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -60,7 +60,7 @@ public final class BotCrystal {
         }
         State st = state(bot.getName());
         double dist = bot.getLocation().distance(target.getLocation());
-        EndCrystal near = nearestCrystal(bot, target, 6.0);
+        EnderCrystal near = nearestCrystal(bot, target, 6.0);
         boolean hasKit = findItem(bot, Material.END_CRYSTAL) >= 0
                 && (findItem(bot, Material.OBSIDIAN) >= 0 || findBase(bot, target) != null);
         if (near == null && (!hasKit || dist < 2.5 || dist > 8.0)) {
@@ -188,7 +188,7 @@ public final class BotCrystal {
         hold(bot, slot);
         BotControl.lookAt(bot, center(base));
         int heldSlot = bot.getInventory().getHeldItemSlot();
-        EndCrystal crystal = bot.getWorld().spawn(at, EndCrystal.class, c -> c.setShowingBottom(false));
+        EnderCrystal crystal = bot.getWorld().spawn(at, EnderCrystal.class, c -> c.setShowingBottom(false));
         if (crystal.isValid()) {
             consume(bot, heldSlot);
             bot.swingMainHand();
@@ -200,7 +200,7 @@ public final class BotCrystal {
         return true;
     }
 
-    private static boolean hitCrystal(Player bot, Player target, EndCrystal crystal, State st, BotSettings settings) {
+    private static boolean hitCrystal(Player bot, Player target, EnderCrystal crystal, State st, BotSettings settings) {
         Location cl = crystal.getLocation();
         if (!safe(bot, cl, settings)) {
             BotNavigation.moveAway(bot, target, settings.getSpeed());
@@ -320,11 +320,11 @@ public final class BotCrystal {
         return b.getLocation().add(0.5, 0.5, 0.5);
     }
 
-    private static EndCrystal nearestCrystal(Player bot, Player target, double radius) {
-        EndCrystal best = null;
+    private static EnderCrystal nearestCrystal(Player bot, Player target, double radius) {
+        EnderCrystal best = null;
         double bd = radius + 1;
         for (Entity e : target.getNearbyEntities(radius, radius, radius)) {
-            if (e instanceof EndCrystal c) {
+            if (e instanceof EnderCrystal c) {
                 double d = c.getLocation().distance(target.getLocation());
                 if (d < bd) {
                     bd = d;
