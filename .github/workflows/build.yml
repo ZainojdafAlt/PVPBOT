@@ -1,0 +1,25 @@
+name: Build PvpBot with Crystal PvP
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '25' }
+      - name: Find newest Paper API version
+        run: |
+          curl -sf https://repo.papermc.io/repository/maven-public/io/papermc/paper/paper-api/maven-metadata.xml -o meta.xml
+          ALL=$(grep -o '<version>[^<]*</version>' meta.xml | sed 's/<[^>]*>//g')
+          V=$(echo "$ALL" | grep '^26\.2' | tail -1)
+          if [ -z "$V" ]; then echo "No 26.2 version found. Available (last 15):"; echo "$ALL" | tail -15; exit 1; fi
+          echo "Paper API: $V"; echo "PAPER_VERSION=$V" >> $GITHUB_ENV
+      - name: Compile patched classes
+        run: mvn -B -q -Dpaper.version=$PAPER_VERSION compile
+      - name: Merge into the original jar
+        run: |
+          cp plugin/PvpBot-2.0.0-26.2.jar PvpBot-2.0.0-26.2-crystal.jar
+          jar --update --file PvpBot-2.0.0-26.2-crystal.jar -C target/classes .
+          unzip -l PvpBot-2.0.0-26.2-crystal.jar | grep -i crystal
+      - uses: actions/upload-artifact@v4
+        with: { name: PvpBot-crystal, path: PvpBot-2.0.0-26.2-crystal.jar }
